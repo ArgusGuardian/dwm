@@ -1,7 +1,8 @@
 /* See LICENSE file for copyright and license details. */
 
 /* Constants */
-#define TERMINAL "st"
+#define TERMINAL "kitty"
+#define TERMINAL_2 "st"
 #define TERMCLASS "St"
 #define BROWSER "brave"
 
@@ -42,10 +43,10 @@ typedef struct {
   const char *name;
   const void *cmd;
 } Sp;
-const char *spcmd1[] = {TERMINAL, "-n", "spterm", "-g", "144x42", NULL};
-const char *spcmd2[] = {TERMINAL, "-n",    "spcalc", "-f", "monospace:size=16",
-                        "-g",     "50x20", "-e",     "bc", "-lq",
-                        NULL};
+const char *spcmd1[] = {TERMINAL_2, "-n", "spterm", "-g", "144x42", NULL};
+const char *spcmd2[] = {
+    TERMINAL_2, "-n", "spcalc", "-f", "monospace:size=16", "-g", "50x20",
+    "-e",       "bc", "-lq",    NULL};
 static Sp scratchpads[] = {
     /* name          cmd  */
     {"spterm", spcmd1},
