@@ -1,7 +1,8 @@
 /* See LICENSE file for copyright and license details. */
 
 /* Constants */
-#define TERMINAL "kitty"
+// #define TERMINAL "kitty"
+#define TERMINAL "st"
 #define TERMINAL_2 "st"
 #define TERMCLASS "St"
 #define BROWSER "brave"
@@ -25,7 +26,8 @@ static int topbar = 1;  /* 0 means bottom bar */
 // "IosevkaTermNerdFontMono-Medium:pixelsize=14:antialias=true:autohint=true",
 // "NotoColorEmoji:pixelsize=10:antialias=true:autohint=true"  };
 static char *fonts[] = {
-    "IosevkaTermNerdFontMono-Bold:pixelsize=14:antialias=true:autohint=true",
+    // "IosevkaTermNerdFontMono-Bold:pixelsize=14:antialias=true:autohint=true",
+    "JetBrainsMonoNerdFont-Bold:pixelsize=14:antialias=true:autohint=true",
     "NotoColorEmoji:pixelsize=10:antialias=true:autohint=true"};
 static char normbgcolor[] = "#222222";
 static char normbordercolor[] = "#444444";
