@@ -5,7 +5,7 @@
 #define TERMINAL "st"
 #define TERMINAL_2 "st"
 #define TERMCLASS "St"
-#define BROWSER "brave"
+#define BROWSER "firefox"
 
 /* appearance */
 static unsigned int borderpx = 2; /* border pixel of windows */
