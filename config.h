@@ -2,6 +2,7 @@
 
 /* Constants */
 #define TERMINAL "st"
+// #define TERMINAL "kitty"
 #define TERMINAL_2 "st"
 #define TERMCLASS "St"
 #define BROWSER "firefox"
@@ -24,18 +25,29 @@ static int topbar = 1;  /* 0 means bottom bar */
 static char *fonts[] = {
     "JetBrainsMonoNerdFont-Bold:pixelsize=14:antialias=true:autohint=true",
     "NotoColorEmoji:pixelsize=10:antialias=true:autohint=true"};
-static char normbgcolor[] = "#222222";
+// static char normbgcolor[] = "#222222";
+// static char normbordercolor[] = "#444444";
+// static char normfgcolor[] = "#bbbbbb";
+// static char selfgcolor[] = "#eeeeee";
+// static char selbordercolor[] = "#770000";
+// static char selbgcolor[] = "#005577";
+// static char *colors[][3] = {
+//     /*               fg           bg           border   */
+//     [SchemeNorm] = {normfgcolor, normbgcolor, normbordercolor},
+//     [SchemeSel] = {selfgcolor, selbgcolor, selbordercolor},
+// };
+
+static char normbgcolor[] = "#1E1E2E";
 static char normbordercolor[] = "#444444";
-static char normfgcolor[] = "#bbbbbb";
-static char selfgcolor[] = "#eeeeee";
-static char selbordercolor[] = "#770000";
-static char selbgcolor[] = "#005577";
+static char normfgcolor[] = "#fab387";
+static char selfgcolor[] = "#1E1E2E";
+static char selbordercolor[] = "#F38BA8";
+static char selbgcolor[] = "#fab387";
 static char *colors[][3] = {
     /*               fg           bg           border   */
     [SchemeNorm] = {normfgcolor, normbgcolor, normbordercolor},
     [SchemeSel] = {selfgcolor, selbgcolor, selbordercolor},
 };
-
 typedef struct
 {
     const char *name;
@@ -129,11 +141,11 @@ static const char *termcmd[] = {TERMINAL, NULL};
  */
 ResourcePref resources[] = {
     {"color0", STRING, &normbordercolor},
-    {"color8", STRING, &selbordercolor},
-    {"color0", STRING, &normbgcolor},
-    {"color4", STRING, &normfgcolor},
-    {"color0", STRING, &selfgcolor},
-    {"color4", STRING, &selbgcolor},
+    {"color1", STRING, &selbordercolor},
+    {"background", STRING, &normbgcolor},
+    {"color3", STRING, &normfgcolor},
+    {"background", STRING, &selfgcolor},
+    {"color3", STRING, &selbgcolor},
     {"borderpx", INTEGER, &borderpx},
     {"snap", INTEGER, &snap},
     {"showbar", INTEGER, &showbar},
@@ -352,8 +364,8 @@ static const Key keys[] = {
      spawn,
      {.v = (const char *[]){"dmenurecord", "kill", NULL}}},
     {MODKEY, XK_Scroll_Lock, spawn, SHCMD("killall screenkey || screenkey &")},
-    {MODKEY | ControlMask, XK_j, spawn, SHCMD("brightnessctl set 3%-; kill -44 $(pidof dwmblocks)")},
-    {MODKEY | ControlMask, XK_k, spawn, SHCMD("brightnessctl set 3%+; kill -44 $(pidof dwmblocks)")},
+    {MODKEY | ControlMask, XK_k, spawn, SHCMD("brightnessctl set 3%+ && pkill -RTMIN+20 dwmblocks")},
+    {MODKEY | ControlMask, XK_j, spawn, SHCMD("brightnessctl set 3%- && pkill -RTMIN+20 dwmblocks")},
     {0, XF86XK_AudioMute, spawn,
      SHCMD("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle; kill -44 $(pidof "
            "dwmblocks)")},
