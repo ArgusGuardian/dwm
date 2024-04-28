@@ -1,14 +1,13 @@
 /* See LICENSE file for copyright and license details. */
 
 /* Constants */
-// #define TERMINAL "kitty"
 #define TERMINAL "st"
 #define TERMINAL_2 "st"
 #define TERMCLASS "St"
 #define BROWSER "firefox"
 
 /* appearance */
-static unsigned int borderpx = 2; /* border pixel of windows */
+static unsigned int borderpx = 1; /* border pixel of windows */
 static unsigned int snap = 32;    /* snap pixel */
 static unsigned int gappih = 20;  /* horiz inner gap between windows */
 static unsigned int gappiv = 10;  /* vert inner gap between windows */
@@ -22,11 +21,7 @@ static int smartgaps =
     0;                  /* 1 means no outer gap when there is only one window */
 static int showbar = 1; /* 0 means no bar */
 static int topbar = 1;  /* 0 means bottom bar */
-// static char *fonts[]          = {
-// "IosevkaTermNerdFontMono-Medium:pixelsize=14:antialias=true:autohint=true",
-// "NotoColorEmoji:pixelsize=10:antialias=true:autohint=true"  };
 static char *fonts[] = {
-    // "IosevkaTermNerdFontMono-Bold:pixelsize=14:antialias=true:autohint=true",
     "JetBrainsMonoNerdFont-Bold:pixelsize=14:antialias=true:autohint=true",
     "NotoColorEmoji:pixelsize=10:antialias=true:autohint=true"};
 static char normbgcolor[] = "#222222";
@@ -41,14 +36,15 @@ static char *colors[][3] = {
     [SchemeSel] = {selfgcolor, selbgcolor, selbordercolor},
 };
 
-typedef struct {
-  const char *name;
-  const void *cmd;
+typedef struct
+{
+    const char *name;
+    const void *cmd;
 } Sp;
 const char *spcmd1[] = {TERMINAL_2, "-n", "spterm", "-g", "144x42", NULL};
 const char *spcmd2[] = {
     TERMINAL_2, "-n", "spcalc", "-f", "monospace:size=16", "-g", "50x20",
-    "-e",       "bc", "-lq",    NULL};
+    "-e", "bc", "-lq", NULL};
 static Sp scratchpads[] = {
     /* name          cmd  */
     {"spterm", spcmd1},
@@ -80,8 +76,8 @@ static int nmaster = 1;     /* number of clients in master area */
 static int resizehints = 0; /* 1 means respect size hints in tiled resizals */
 static const int lockfullscreen =
     1; /* 1 will force focus on the fullscreen window */
-#define FORCE_VSPLIT                                                           \
-  1 /* nrowgrid layout: force two clients to always split vertically */
+#define FORCE_VSPLIT \
+    1 /* nrowgrid layout: force two clients to always split vertically */
 #include "vanitygaps.c"
 static const Layout layouts[] = {
     /* symbol     arrange function */
@@ -103,27 +99,27 @@ static const Layout layouts[] = {
 
 /* key definitions */
 #define MODKEY Mod4Mask
-#define TAGKEYS(KEY, TAG)                                                      \
-  {MODKEY, KEY, view, {.ui = 1 << TAG}},                                       \
-      {MODKEY | ControlMask, KEY, toggleview, {.ui = 1 << TAG}},               \
-      {MODKEY | ShiftMask, KEY, tag, {.ui = 1 << TAG}},                        \
-      {MODKEY | ControlMask | ShiftMask, KEY, toggletag, {.ui = 1 << TAG}},
-#define STACKKEYS(MOD, ACTION)                                                 \
-  {MOD, XK_j, ACTION##stack, {.i = INC(+1)}},                                  \
-      {MOD, XK_k, ACTION##stack, {.i = INC(-1)}},                              \
-      {MOD,                                                                    \
-       XK_v,                                                                   \
-       ACTION##stack,                                                          \
-       {.i = 0}}, /* { MOD, XK_grave, ACTION##stack, {.i = PREVSEL } }, \ */
-                  /* { MOD, XK_a,     ACTION##stack, {.i = 1 } }, \ */
-                  /* { MOD, XK_z,     ACTION##stack, {.i = 2 } }, \ */
-                  /* { MOD, XK_x,     ACTION##stack, {.i = -1 } }, */
+#define TAGKEYS(KEY, TAG)                                          \
+    {MODKEY, KEY, view, {.ui = 1 << TAG}},                         \
+        {MODKEY | ControlMask, KEY, toggleview, {.ui = 1 << TAG}}, \
+        {MODKEY | ShiftMask, KEY, tag, {.ui = 1 << TAG}},          \
+        {MODKEY | ControlMask | ShiftMask, KEY, toggletag, {.ui = 1 << TAG}},
+#define STACKKEYS(MOD, ACTION)                      \
+    {MOD, XK_j, ACTION##stack, {.i = INC(+1)}},     \
+        {MOD, XK_k, ACTION##stack, {.i = INC(-1)}}, \
+        {MOD,                                       \
+         XK_v,                                      \
+         ACTION##stack,                             \
+         {.i = 0}}, /* { MOD, XK_grave, ACTION##stack, {.i = PREVSEL } }, \ */
+                    /* { MOD, XK_a,     ACTION##stack, {.i = 1 } }, \ */
+                    /* { MOD, XK_z,     ACTION##stack, {.i = 2 } }, \ */
+                    /* { MOD, XK_x,     ACTION##stack, {.i = -1 } }, */
 
 /* helper for spawning shell commands in the pre dwm-5.0 fashion */
-#define SHCMD(cmd)                                                             \
-  {                                                                            \
-    .v = (const char *[]) { "/bin/sh", "-c", cmd, NULL }                       \
-  }
+#define SHCMD(cmd)                                           \
+    {                                                        \
+        .v = (const char *[]) { "/bin/sh", "-c", cmd, NULL } \
+    }
 
 /* commands */
 static const char *termcmd[] = {TERMINAL, NULL};
@@ -215,7 +211,7 @@ static const Key keys[] = {
     {MODKEY | ShiftMask, XK_y, setlayout, {.v = &layouts[3]}}, /* dwindle */
     {MODKEY, XK_u, setlayout, {.v = &layouts[4]}},             /* deck */
     {MODKEY | ShiftMask, XK_u, setlayout, {.v = &layouts[5]}}, /* monocle */
-    {MODKEY, XK_i, setlayout, {.v = &layouts[6]}}, /* centeredmaster */
+    {MODKEY, XK_i, setlayout, {.v = &layouts[6]}},             /* centeredmaster */
     {MODKEY | ShiftMask,
      XK_i,
      setlayout,
@@ -356,7 +352,8 @@ static const Key keys[] = {
      spawn,
      {.v = (const char *[]){"dmenurecord", "kill", NULL}}},
     {MODKEY, XK_Scroll_Lock, spawn, SHCMD("killall screenkey || screenkey &")},
-
+    {MODKEY | ControlMask, XK_j, spawn, SHCMD("brightnessctl set 3%-; kill -44 $(pidof dwmblocks)")},
+    {MODKEY | ControlMask, XK_k, spawn, SHCMD("brightnessctl set 3%+; kill -44 $(pidof dwmblocks)")},
     {0, XF86XK_AudioMute, spawn,
      SHCMD("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle; kill -44 $(pidof "
            "dwmblocks)")},
