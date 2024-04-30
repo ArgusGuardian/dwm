@@ -48,19 +48,24 @@ static char *colors[][3] = {
     [SchemeNorm] = {normfgcolor, normbgcolor, normbordercolor},
     [SchemeSel] = {selfgcolor, selbgcolor, selbordercolor},
 };
-typedef struct
-{
-    const char *name;
-    const void *cmd;
+typedef struct {
+  const char *name;
+  const void *cmd;
 } Sp;
 const char *spcmd1[] = {TERMINAL_2, "-n", "spterm", "-g", "144x42", NULL};
 const char *spcmd2[] = {
     TERMINAL_2, "-n", "spcalc", "-f", "monospace:size=16", "-g", "50x20",
-    "-e", "bc", "-lq", NULL};
+    "-e",       "bc", "-lq",    NULL};
+const char *spcmd3[] = {"st",     "-n", "news",     "-g",
+                        "120x34", "-e", "newsboat", NULL};
+const char *spcmd4[] = {"st",     "-n", "spmusic", "-g",
+                        "120x34", "-e", "ncmpcpp", NULL};
+const char *spcmd5[] = {"st",     "-n", "spfile", "-g",
+                        "120x34", "-e", "lfub",   NULL};
 static Sp scratchpads[] = {
     /* name          cmd  */
-    {"spterm", spcmd1},
-    {"spcalc", spcmd2},
+    {"spterm", spcmd1},  {"spcalc", spcmd2}, {"news", spcmd3},
+    {"spmusic", spcmd4}, {"spfile", spcmd5},
 };
 
 /* tagging */
@@ -80,6 +85,9 @@ static const Rule rules[] = {
     {TERMCLASS, "bg", NULL, 1 << 7, 0, 1, 0, -1},
     {TERMCLASS, "spterm", NULL, SPTAG(0), 1, 1, 0, -1},
     {TERMCLASS, "spcalc", NULL, SPTAG(1), 1, 1, 0, -1},
+    {TERMCLASS, "news", NULL, SPTAG(2), 1, 1, 0, -1},
+    {TERMCLASS, "spmusic", NULL, SPTAG(3), 1, 1, 0, -1},
+    {TERMCLASS, "spfile", NULL, SPTAG(4), 1, 1, 0, -1},
 };
 
 /* layout(s) */
@@ -88,8 +96,8 @@ static int nmaster = 1;     /* number of clients in master area */
 static int resizehints = 0; /* 1 means respect size hints in tiled resizals */
 static const int lockfullscreen =
     1; /* 1 will force focus on the fullscreen window */
-#define FORCE_VSPLIT \
-    1 /* nrowgrid layout: force two clients to always split vertically */
+#define FORCE_VSPLIT                                                           \
+  1 /* nrowgrid layout: force two clients to always split vertically */
 #include "vanitygaps.c"
 static const Layout layouts[] = {
     /* symbol     arrange function */
@@ -111,27 +119,27 @@ static const Layout layouts[] = {
 
 /* key definitions */
 #define MODKEY Mod4Mask
-#define TAGKEYS(KEY, TAG)                                          \
-    {MODKEY, KEY, view, {.ui = 1 << TAG}},                         \
-        {MODKEY | ControlMask, KEY, toggleview, {.ui = 1 << TAG}}, \
-        {MODKEY | ShiftMask, KEY, tag, {.ui = 1 << TAG}},          \
-        {MODKEY | ControlMask | ShiftMask, KEY, toggletag, {.ui = 1 << TAG}},
-#define STACKKEYS(MOD, ACTION)                      \
-    {MOD, XK_j, ACTION##stack, {.i = INC(+1)}},     \
-        {MOD, XK_k, ACTION##stack, {.i = INC(-1)}}, \
-        {MOD,                                       \
-         XK_v,                                      \
-         ACTION##stack,                             \
-         {.i = 0}}, /* { MOD, XK_grave, ACTION##stack, {.i = PREVSEL } }, \ */
-                    /* { MOD, XK_a,     ACTION##stack, {.i = 1 } }, \ */
-                    /* { MOD, XK_z,     ACTION##stack, {.i = 2 } }, \ */
-                    /* { MOD, XK_x,     ACTION##stack, {.i = -1 } }, */
+#define TAGKEYS(KEY, TAG)                                                      \
+  {MODKEY, KEY, view, {.ui = 1 << TAG}},                                       \
+      {MODKEY | ControlMask, KEY, toggleview, {.ui = 1 << TAG}},               \
+      {MODKEY | ShiftMask, KEY, tag, {.ui = 1 << TAG}},                        \
+      {MODKEY | ControlMask | ShiftMask, KEY, toggletag, {.ui = 1 << TAG}},
+#define STACKKEYS(MOD, ACTION)                                                 \
+  {MOD, XK_j, ACTION##stack, {.i = INC(+1)}},                                  \
+      {MOD, XK_k, ACTION##stack, {.i = INC(-1)}},                              \
+      {MOD,                                                                    \
+       XK_v,                                                                   \
+       ACTION##stack,                                                          \
+       {.i = 0}}, /* { MOD, XK_grave, ACTION##stack, {.i = PREVSEL } }, \ */
+                  /* { MOD, XK_a,     ACTION##stack, {.i = 1 } }, \ */
+                  /* { MOD, XK_z,     ACTION##stack, {.i = 2 } }, \ */
+                  /* { MOD, XK_x,     ACTION##stack, {.i = -1 } }, */
 
 /* helper for spawning shell commands in the pre dwm-5.0 fashion */
-#define SHCMD(cmd)                                           \
-    {                                                        \
-        .v = (const char *[]) { "/bin/sh", "-c", cmd, NULL } \
-    }
+#define SHCMD(cmd)                                                             \
+  {                                                                            \
+    .v = (const char *[]) { "/bin/sh", "-c", cmd, NULL }                       \
+  }
 
 /* commands */
 static const char *termcmd[] = {TERMINAL, NULL};
@@ -209,10 +217,10 @@ static const Key keys[] = {
     {MODKEY | ShiftMask, XK_e, spawn,
      SHCMD(TERMINAL " -e abook -C ~/.config/abook/abookrc --datafile "
                     "~/.config/abook/addressbook")},
-    {MODKEY,
-     XK_r,
-     spawn,
-     {.v = (const char *[]){TERMINAL, "-e", "lfub", NULL}}},
+    // {MODKEY,
+    //  XK_r,
+    //  spawn,
+    //  {.v = (const char *[]){TERMINAL, "-e", "lfub", NULL}}},
     {MODKEY | ShiftMask,
      XK_r,
      spawn,
@@ -223,7 +231,7 @@ static const Key keys[] = {
     {MODKEY | ShiftMask, XK_y, setlayout, {.v = &layouts[3]}}, /* dwindle */
     {MODKEY, XK_u, setlayout, {.v = &layouts[4]}},             /* deck */
     {MODKEY | ShiftMask, XK_u, setlayout, {.v = &layouts[5]}}, /* monocle */
-    {MODKEY, XK_i, setlayout, {.v = &layouts[6]}},             /* centeredmaster */
+    {MODKEY, XK_i, setlayout, {.v = &layouts[6]}}, /* centeredmaster */
     {MODKEY | ShiftMask,
      XK_i,
      setlayout,
@@ -277,6 +285,9 @@ static const Key keys[] = {
     {MODKEY | ShiftMask, XK_apostrophe, togglesmartgaps, {0}},
     {MODKEY, XK_Return, spawn, {.v = termcmd}},
     {MODKEY | ShiftMask, XK_Return, togglescratch, {.ui = 0}},
+    {MODKEY | ShiftMask, XK_n, togglescratch, {.ui = 2}},
+    {MODKEY, XK_m, togglescratch, {.ui = 3}},
+    {MODKEY, XK_r, togglescratch, {.ui = 4}},
 
     {MODKEY, XK_z, incrgaps, {.i = +3}},
     /* { MODKEY|ShiftMask,		XK_z,		spawn,
@@ -299,12 +310,12 @@ static const Key keys[] = {
      spawn,
      {.v = (const char *[]){TERMINAL, "-e", "nvim", "-c", "VimwikiIndex",
                             NULL}}},
-    {MODKEY | ShiftMask, XK_n, spawn,
-     SHCMD(TERMINAL " -e newsboat ; pkill -RTMIN+6 dwmblocks")},
-    {MODKEY,
-     XK_m,
-     spawn,
-     {.v = (const char *[]){TERMINAL, "-e", "ncmpcpp", NULL}}},
+    // {MODKEY | ShiftMask, XK_n, spawn,
+    //  SHCMD(TERMINAL " -e newsboat ; pkill -RTMIN+6 dwmblocks")},
+    // {MODKEY,
+    //  XK_m,
+    //  spawn,
+    //  {.v = (const char *[]){TERMINAL, "-e", "ncmpcpp", NULL}}},
     {MODKEY | ShiftMask, XK_m, spawn,
      SHCMD("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle; kill -44 $(pidof "
            "dwmblocks)")},
@@ -364,8 +375,10 @@ static const Key keys[] = {
      spawn,
      {.v = (const char *[]){"dmenurecord", "kill", NULL}}},
     {MODKEY, XK_Scroll_Lock, spawn, SHCMD("killall screenkey || screenkey &")},
-    {MODKEY | ControlMask, XK_k, spawn, SHCMD("brightnessctl set 3%+ && pkill -RTMIN+20 dwmblocks")},
-    {MODKEY | ControlMask, XK_j, spawn, SHCMD("brightnessctl set 3%- && pkill -RTMIN+20 dwmblocks")},
+    {MODKEY | ControlMask, XK_k, spawn,
+     SHCMD("brightnessctl set 3%+ && pkill -RTMIN+20 dwmblocks")},
+    {MODKEY | ControlMask, XK_j, spawn,
+     SHCMD("brightnessctl set 3%- && pkill -RTMIN+20 dwmblocks")},
     {0, XF86XK_AudioMute, spawn,
      SHCMD("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle; kill -44 $(pidof "
            "dwmblocks)")},
