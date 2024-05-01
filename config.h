@@ -37,12 +37,12 @@ static char *fonts[] = {
 //     [SchemeSel] = {selfgcolor, selbgcolor, selbordercolor},
 // };
 
-static char normbgcolor[] = "#1E1E2E";
-static char normbordercolor[] = "#444444";
-static char normfgcolor[] = "#fab387";
-static char selfgcolor[] = "#1E1E2E";
-static char selbordercolor[] = "#F38BA8";
-static char selbgcolor[] = "#fab387";
+static char normbgcolor[] = "#191724";
+static char normbordercolor[] = "#e0def4";
+static char normfgcolor[] = "#31748f";
+static char selfgcolor[] = "#191724";
+static char selbordercolor[] = "#eb6f92";
+static char selbgcolor[] = "#31748f";
 static char *colors[][3] = {
     /*               fg           bg           border   */
     [SchemeNorm] = {normfgcolor, normbgcolor, normbordercolor},
