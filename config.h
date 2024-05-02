@@ -61,7 +61,7 @@ const char *spcmd3[] = {"st",     "-n", "news",     "-g",
 const char *spcmd4[] = {"st",     "-n", "spmusic", "-g",
                         "120x34", "-e", "ncmpcpp", NULL};
 const char *spcmd5[] = {"st",     "-n", "spfile", "-g",
-                        "120x34", "-e", "lfub",   NULL};
+                        "144x42", "-e", "yazi",   NULL};
 static Sp scratchpads[] = {
     /* name          cmd  */
     {"spterm", spcmd1},  {"spcalc", spcmd2}, {"news", spcmd3},
